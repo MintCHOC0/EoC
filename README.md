@@ -1,4 +1,5 @@
-#EoC(Evolution of Cooperation)
+EoC(Evolution of Cooperation)
+==================================
 
 ## 개요
 Robert M. Axelrod 교수님의 저서 <Evolution of Cooperation>(협력의 진화)와
