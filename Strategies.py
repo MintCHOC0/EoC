@@ -31,13 +31,3 @@ class TitForTat:
         else : oppo_list = data[0]
         if (len(oppo_list) < 1): return 1
         else : return oppo_list[-1]
-
-class Friedman:
-    def __init__(self):
-        self.my_point = 0
-        self.my_choice_log = []
-        self.code = "FM"
-
-    def choice(self,data):
-        return 0 if 0 in data[1] else 1
-
