@@ -1,12 +1,4 @@
 import random
-"""
-Usually used to 'Before Games' and 'On the Games' Phases.
-"""
-
-"""
-Input : [(s1,100),(s2,140),...,(s100,240)]
-Output : [[s1,s2,s3],[s99,s100,s77]] <- highest, lowest 3?
-"""
 rl = [("p1",100),
       ("p2",80),
       ("p3",700),

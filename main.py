@@ -1,23 +1,7 @@
-import pandas as pd
-
-from AnalysisTools import *
-from Strategies import *
-from GameTools import *
+from AnalysisTools import getPopulation
+from Strategies import AllR, TitForTat
+from GameTools import getWorst, getBest, Referee
 from itertools import combinations
-"""
-This Project, 'Evolution of Cooperation(Aka. EoC)', is Clone Coding of Professor Axelord.
-EoC is composed of 3 Phases.
-
-1) Before Games(BG Phase)
-- make up league matches
-
-2) On the Games Phase(OG Phase)
-- perform games, save choice datas, calculate points..
-
-3) After the Games Phase(AG Phase)
-- data analysis
-- choice winner and loser, reproduce..
-"""
 
 #Before Games Phase
 p1 = AllR()
@@ -37,19 +21,11 @@ p14 = TitForTat()
 p15 = TitForTat()
 
 player_list = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15]
-# group_status = getPopulation(player_list)
-# df = pd.DataFrame(group_status)
-# print(df)
 
 generation = 0
 while (generation < 10):
     league = list(combinations(player_list, 2))
     generation += 1
-
-    # print(player_list)
-    # gP = [n[1] for n in getPopulation(player_list)]
-    # df[f'{generation+1}'] = gP
-    # print(df)
 
     for team in league:
         game_cnt = 0
