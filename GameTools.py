@@ -59,3 +59,26 @@ class Referee:
         self.p2_choice_log = []
         self.p1_point = 0
         self.p2_point = 0
+    
+    def updateRefLog(self, c1, c2):
+        self.p1_choice_log.append(c1)
+        self.p2_choice_log.append(c2)
+
+
+    def addRefPoint(self, c1, c2):
+        if (c1 == 1 and c2 == 1):
+            self.p1_point += 3
+            self.p2_point += 3
+        elif (c1 == 1 and c2 == 0):
+            self.p1_point += 5
+            self.p2_point += -1
+        elif (c1 == 0 and c2 == 1):
+            self.p1_point += -1
+            self.p2_point += 5
+        elif (c1 == 0 and c2 == 0) :
+            self.p1_point += 0
+            self.p2_point += 0
+        # Error Case
+        else :
+            self.p1 += -9999999
+            self.p2 += -9999999

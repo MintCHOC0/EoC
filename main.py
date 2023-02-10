@@ -41,26 +41,10 @@ while (generation < 10):
             c2 = player2.choice(2,data)
 
             # update log
-            referee.p1_choice_log.append(c1)
-            referee.p2_choice_log.append(c2)
+            referee.updateRefLog(c1, c2)
 
             # distribute points
-            if (c1 == 1 and c2 == 1):
-                referee.p1_point += 3
-                referee.p2_point += 3
-            elif (c1 == 1 and c2 == 0):
-                referee.p1_point += 5
-                referee.p2_point += -1
-            elif (c1 == 0 and c2 == 1):
-                referee.p1_point += -1
-                referee.p2_point += 5
-            elif (c1 == 0 and c2 == 0) :
-                referee.p1_point += 0
-                referee.p2_point += 0
-            # Error Case
-            else :
-                player1.my_point += -9999999
-                player2.my_point += -9999999
+            referee.addRefPoint(c1, c2)
 
         player1.my_point += referee.p1_point
         player2.my_point += referee.p2_point
