@@ -1,24 +1,40 @@
 from itertools import combinations
+from collections import Counter
 from random import sample
+from AnalysisTools import showAllChoices, showAllPoints, showNowPlayers
+import pandas as pd
+
+
 class PrisonerDilemma:
     def __init__(self, players, config_game, tuple_match):
         self.players = players
         self.gener_cnt, self.match_cnt, self.repro_cnt = config_game
         self.list_league = list(combinations(self.players, 2))
         self.win_point, self.lose_point, self.tie_win_point, self.tie_lose_point = tuple_match
+        
+        # make default df
+        self.init_name = dict(Counter([player.__class__.__name__ for player in self.players[:]]))
+        print(self.init_name)
+        self.dict_name = dict(Counter([player.__class__.__name__ for player in self.players]))
+        self.df_gener = pd.DataFrame(columns=self.dict_name.keys())
+        self.df_gener.loc[0] = self.dict_name.values()
 
-    def returnFinalGeneration(self):
+
+    def returnFinalGeneration(self, showConditions):
         for i in range(self.gener_cnt):
-            self.updateGeneration()
+            self.updateGeneration(showConditions)
     
-    def updateGeneration(self):
+    def updateGeneration(self, showConditions):
         # match per team
         self.list_league = list(combinations(self.players, 2))
         for team in self.list_league:
             for i in range(self.match_cnt):
                 self.match(team)
+            if (showConditions.get('showChoices')): showAllChoices(team[0], team[1])
             team[0].list_choice = []
             team[1].list_choice = []
+        
+        if (showConditions.get('showPoints')): showAllPoints(self.players)
 
         # check winner and loser
         self.players.sort(key = lambda x:x.point, reverse=True)
@@ -27,6 +43,9 @@ class PrisonerDilemma:
 
         # reproduce winner and eliminate loser
         self.updatePlayers(list_loser_idx, list_winner_idx)
+        
+        if (showConditions.get('showCounter')): showNowPlayers(self.players, self.gener_cnt)
+        if (showConditions.get('saveData')): self.appendDataFrame()
 
         # reset points
         for i in range(len(self.players)):
@@ -90,3 +109,9 @@ class PrisonerDilemma:
         
         list_loser_idx += sample(temp, self.repro_cnt - len(list_loser_idx))
         return list_loser_idx
+    
+    def appendDataFrame(self):
+        self.dict_name = dict(Counter([player.__class__.__name__ for player in self.players]))
+        self.df_gener.loc[len(self.df_gener)] = [0 for i in range(len(self.init_name))]
+        for player, count in self.dict_name.items():
+            self.df_gener.loc[len(self.df_gener) - 1, player] = count

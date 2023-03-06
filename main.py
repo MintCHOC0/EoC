@@ -1,6 +1,6 @@
 from GameTools import PrisonerDilemma
 from Players import AllC, AllB, AllR, TitForTat
-from AnalysisTools import AnalysisTool
+from AnalysisTools import showPlayerGraph
 print("Tool Import Complete\n")
 
 # init enviornment
@@ -25,6 +25,12 @@ list_player = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15]
 # variables
 meta_game_var = (10, 100, 3) # gener / match / repro_cnt
 t_mat = (5, -1, 3, 0) # win-lose point matrix
+msg_condition = {
+    'showChoices' : False,
+    'showPoints' : True,
+    'showCounter' : True, # Shows the number of player classes that survived each generation.
+    'saveData': True  # save player class and count in each generation.
+    }
 
 # make game Object
 game = PrisonerDilemma(
@@ -33,13 +39,13 @@ game = PrisonerDilemma(
     tuple_match = t_mat
     )
 
-# play game
-for i in range(20):
-    game.updateGeneration()
-    game_data = AnalysisTool(game.players)
-    game_data.showSummary()
+for i in range(10):
+    game.updateGeneration(msg_condition)
     print("=======================================")
 
+print(game.df_gener)
 
-
-# analysis result
+# write and show
+file_path = "./ignore/gamedata.csv"
+game.df_gener.to_csv(file_path)
+showPlayerGraph(file_path)
