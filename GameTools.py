@@ -2,8 +2,14 @@ from itertools import combinations
 from collections import Counter
 from random import sample
 from AnalysisTools import showAllChoices, showAllPoints, showNowPlayers
+import copy
 import pandas as pd
 
+def copyPlayer(class_player, count):
+    list_copycats = []
+    for i in range(count):
+        list_copycats.append(copy.deepcopy(class_player()))
+    return list_copycats
 
 class PrisonerDilemma:
     def __init__(self, players, config_game, tuple_match):
@@ -21,10 +27,10 @@ class PrisonerDilemma:
 
 
     def returnFinalGeneration(self, showConditions):
-        for i in range(self.gener_cnt):
-            self.updateGeneration(showConditions)
+        for cnt in range(self.gener_cnt):
+            self.updateGeneration(showConditions, cnt)
     
-    def updateGeneration(self, showConditions):
+    def updateGeneration(self, showConditions, cnt):
         # match per team
         self.list_league = list(combinations(self.players, 2))
         for team in self.list_league:
@@ -44,7 +50,7 @@ class PrisonerDilemma:
         # reproduce winner and eliminate loser
         self.updatePlayers(list_loser_idx, list_winner_idx)
         
-        if (showConditions.get('showCounter')): showNowPlayers(self.players, self.gener_cnt)
+        if (showConditions.get('showCounter')): showNowPlayers(self.players, cnt + 1)
         if (showConditions.get('saveData')): self.appendDataFrame()
 
         # reset points
